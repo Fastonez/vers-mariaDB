@@ -17,19 +17,31 @@ $password = $_POST['password'];
 // Query multipla (vulnerabile a SQLi!)
 $sql = "SELECT * FROM users WHERE username='$username' AND password='$password';";
 
+// Esecuzione multi_query
+$login_success = false;
 
-// Esegue multi_query
+
 if ($conn->multi_query($sql)) {
     do {
         if ($result = $conn->store_result()) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<pre>" . print_r($row, true) . "</pre>"; // Debug
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    // Se troviamo almeno un utente valido nella PRIMA query
+                    if (isset($row['username']) ){
+                        $login_success = true;
+                        
+                    }
+                    
+                }
+                echo "ACCESSO CONSENTITO";
+            }else{
+                echo "ACCESSO NEGATO";
             }
             $result->free();
         }
     } while ($conn->next_result());
 } else {
-    echo "Errore: " . $conn->error;
+    echo "<p class='error-message'>❌ Errore nella query: " . $conn->error . "</p>";
 }
 
 $conn->close();
