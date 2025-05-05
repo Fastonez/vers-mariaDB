@@ -10,21 +10,26 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Verifica se i dati sono stati inviati
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $conn->real_escape_string($_POST['username']);
-    $password = $conn->real_escape_string($_POST['password']);
+// L'escaping è DISABILITATO per test (NON fare in produzione!)
+$username = $_POST['username'];  
+$password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-    $result = $conn->query($sql);
+// Query multipla (vulnerabile a SQLi!)
+$sql = "SELECT * FROM users WHERE username='$username' AND password='$password';";
 
-    if ($result && $result->num_rows > 0) {
-        echo "<h2>Accesso consentito</h2>";
-    } else {
-        echo "<h2>Accesso negato</h2>";
-    }
+
+// Esegue multi_query
+if ($conn->multi_query($sql)) {
+    do {
+        if ($result = $conn->store_result()) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<pre>" . print_r($row, true) . "</pre>"; // Debug
+            }
+            $result->free();
+        }
+    } while ($conn->next_result());
 } else {
-    echo "<h2>Errore: Metodo di richiesta non valido</h2>";
+    echo "Errore: " . $conn->error;
 }
 
 $conn->close();
