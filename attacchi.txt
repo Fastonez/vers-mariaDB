@@ -12,3 +12,4 @@ password: qualsiasi cosa
 
 4.
 username: '; UPDATE users SET ruolo='amministratore' WHERE username='user1'; --
+password: qualsiasi cosa

@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="page-header">
         <nav>
-            <a class="reset-link" href="reset.php" aria-label="Resetta il database">🔄 Reset Database</a>
+            <a class="reset-link" href="reset.php" aria-label="Resetta il database">
+                <i class="fas fa-database"></i> Reset Database
+            </a>
         </nav>
     </header>
 

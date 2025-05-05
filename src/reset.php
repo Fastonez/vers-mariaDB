@@ -8,9 +8,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $sql = file_get_contents("setup.sql");
     if ($mysqli->multi_query($sql)) {
-        $message = "<p class='success-message'>✅ Database reset eseguito con successo.</p>";
+        $message = '<div class="result-icon success"><i class="fas fa-check-circle"></i></div><div class="result-message">Database reset eseguito con successo</div>';
     } else {
-        $message = "<p class='error-message'>❌ Errore reset DB: " . $mysqli->error . "</p>";
+        $message = '<div class="result-icon error"><i class="fas fa-times-circle"></i></div><div class="result-message">Errore reset DB: ' . $mysqli->error . '</div>';
     }
 
     $mysqli->close();
@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Database</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -33,11 +34,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php if (!empty($message)) echo $message; ?>
             
             <form method="post" class="reset-form">
-                <button type="submit" class="reset-btn">🔄 Esegui Reset DB</button>
+                <button type="submit" class="reset-btn">
+                    <i class="fas fa-database"></i> Esegui Reset DB
+                </button>
             </form>
             
             <div class="action-links">
-                <a href="index.php" class="back-link">← Torna al Login</a>
+                <a href="index.php" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Torna al Login
+                </a>
             </div>
         </div>
     </main>
