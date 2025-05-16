@@ -16,8 +16,57 @@ $password = $_POST['password'];
 
 $sql = "SELECT * FROM utenti WHERE username='$username' AND password='$password';";
 
-$login_success = false;
+if ($conn->multi_query($sql)) {
+    do {
+        if ($result = $conn->store_result()) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $_SESSION['loggato'] = true;
+                $_SESSION['username'] = $row['username'];
+                $_SESSION['ruolo'] = $row['ruolo'];
+                
+                // Mostra la schermata di benvenuto invece di redirect
+                ?>
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Accesso Riuscito</title>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                    <link rel="stylesheet" href="style.css">
+                </head>
+                <body>
+                    <div class="result-container">
+                        <div class="result-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2>Accesso riuscito!</h2>
+                        <p>Benvenuto, <?php echo htmlspecialchars($row['username']); ?>!</p>
+                        <p>Ruolo: <?php echo htmlspecialchars($row['ruolo']); ?></p>
+                        
+                        <div class="action-links">
+                            <?php if ($_SESSION['ruolo'] === 'amministratore'): ?>
+                                <a href="prodotti.php" class="login-btn">
+                                    <i class="fas fa-boxes"></i> Gestione Prodotti
+                                </a>
+                            <?php endif; ?>
+                            <a href="logout.php" class="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </body>
+                </html>
+                <?php
+                exit();
+            }
+            $result->free();
+        }
+    } while ($conn->next_result());
+}
 
+// Se arriva qui significa che il login ha fallito
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -30,28 +79,11 @@ $login_success = false;
 </head>
 <body>
     <div class="result-container">
-        <?php
-        if ($conn->multi_query($sql)) {
-            do {
-                if ($result = $conn->store_result()) {
-                    if ($result->num_rows > 0) {
-                        session_start();
-                        $_SESSION['loggato'] = true;
-                        $row = $result->fetch_assoc();
-                        echo "<h2>Benvenuto, " . htmlspecialchars($row['username']) . "!</h2>";
-                        echo "<p>Ruolo: " . htmlspecialchars($row['ruolo']) . "</p>";
-                        echo "<p><a href='prodotti.php'>Vai alla gestione prodotti</a></p>";
-                    } else {
-                        echo "<h2>ACCESSO NEGATO</h2>";
-                    }
-                    $result->free();
-                }
-            } while ($conn->next_result());
-        } else {
-            echo '<div class="result-icon error"><i class="fas fa-exclamation-triangle"></i></div>';
-            echo '<div class="result-message">Errore nella query: ' . $conn->error . '</div>';
-        }
-        ?>
+        <div class="result-icon error">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h2>ACCESSO NEGATO</h2>
+        <p>Username o password errati</p>
         <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Torna al Login</a>
     </div>
 </body>

@@ -10,8 +10,9 @@ CREATE TABLE utenti (
 
 CREATE TABLE prodotti (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50),
-    prezzo VARCHAR(50)
+    nome VARCHAR(255) NOT NULL,
+    prezzo INT NOT NULL,
+    quantita INT DEFAULT 1
 );
 
 INSERT INTO utenti (username, password, ruolo) VALUES
@@ -20,6 +21,8 @@ INSERT INTO utenti (username, password, ruolo) VALUES
 ('user2', 'pass2', 'utente');
 
 INSERT INTO prodotti (nome, prezzo) VALUES
-('iphone', '1000$'),
-('macbook', '1200$'),
-('airpods', '200$');
+('iphone', 1000),
+('macbook', 2000),
+('ipad', 800),
+('apple watch', 400),
+('airpods', 200);
