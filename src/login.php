@@ -9,11 +9,12 @@ $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+session_start();
 
 $username = $_POST['username'];  
 $password = $_POST['password'];
 
-$sql = "SELECT * FROM users WHERE username='$username' AND password='$password';";
+$sql = "SELECT * FROM utenti WHERE username='$username' AND password='$password';";
 
 $login_success = false;
 
@@ -34,16 +35,14 @@ $login_success = false;
             do {
                 if ($result = $conn->store_result()) {
                     if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            if (isset($row['username'])) {
-                                $login_success = true;
-                            }
-                        }
-                        echo '<div class="result-icon success"><i class="fas fa-check-circle"></i></div>';
-                        echo '<div class="result-message">ACCESSO CONSENTITO</div>';
+                        session_start();
+                        $_SESSION['loggato'] = true;
+                        $row = $result->fetch_assoc();
+                        echo "<h2>Benvenuto, " . htmlspecialchars($row['username']) . "!</h2>";
+                        echo "<p>Ruolo: " . htmlspecialchars($row['ruolo']) . "</p>";
+                        echo "<p><a href='prodotti.php'>Vai alla gestione prodotti</a></p>";
                     } else {
-                        echo '<div class="result-icon error"><i class="fas fa-times-circle"></i></div>';
-                        echo '<div class="result-message">ACCESSO NEGATO</div>';
+                        echo "<h2>ACCESSO NEGATO</h2>";
                     }
                     $result->free();
                 }
