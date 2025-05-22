@@ -18,6 +18,7 @@ $sql = "SELECT * FROM utenti WHERE username='$username' AND password='$password'
 
 $login_success = false;
 
+
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -30,6 +31,7 @@ $login_success = false;
 </head>
 <body>
     <div class="result-container">
+        
         <?php
         if ($conn->multi_query($sql)) {
             do {
@@ -40,7 +42,21 @@ $login_success = false;
                         $row = $result->fetch_assoc();
                         echo "<h2>Benvenuto, " . htmlspecialchars($row['username']) . "!</h2>";
                         echo "<p>Ruolo: " . htmlspecialchars($row['ruolo']) . "</p>";
-                        echo "<p><a href='prodotti.php'>Vai alla gestione prodotti</a></p>";
+
+                        if ($row['ruolo'] == 'amministratore') {
+                            echo "<form action='prodotti.php' method='get' class='button-form'>";
+                            echo "<button type='submit' class='admin-button'>";
+                            echo "<i class='fas fa-boxes'></i> Gestione prodotti";
+                            echo "</button>";
+                            echo "</form>";
+                        }
+
+                        echo "<form action='cerca_prodotti.php' method='get' class='button-form'>";
+                        echo "<button type='submit' class='admin-button'>";
+                        echo "<i class='fas fa-boxes'></i> Shop";
+                        echo "</button>";
+                        echo "</form>";
+                        
                     } else {
                         echo "<h2>ACCESSO NEGATO</h2>";
                     }
@@ -52,8 +68,10 @@ $login_success = false;
             echo '<div class="result-message">Errore nella query: ' . $conn->error . '</div>';
         }
         ?>
-        <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Torna al Login</a>
+        
     </div>
+
+
 </body>
 </html>
 <?php
