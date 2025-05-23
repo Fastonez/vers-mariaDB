@@ -66,7 +66,6 @@ if ($conn->multi_query($sql)) {
     } while ($conn->next_result());
 }
 
-// Se arriva qui significa che il login ha fallito
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -79,13 +78,47 @@ if ($conn->multi_query($sql)) {
 </head>
 <body>
     <div class="result-container">
-        <div class="result-icon error">
-            <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        <h2>ACCESSO NEGATO</h2>
-        <p>Username o password errati</p>
-        <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Torna al Login</a>
+        
+        <?php
+        if ($conn->multi_query($sql)) {
+            do {
+                if ($result = $conn->store_result()) {
+                    if ($result->num_rows > 0) {
+                        session_start();
+                        $_SESSION['loggato'] = true;
+                        $row = $result->fetch_assoc();
+                        echo "<h2>Benvenuto, " . htmlspecialchars($row['username']) . "!</h2>";
+                        echo "<p>Ruolo: " . htmlspecialchars($row['ruolo']) . "</p>";
+
+                        if ($row['ruolo'] == 'amministratore') {
+                            echo "<form action='prodotti.php' method='get' class='button-form'>";
+                            echo "<button type='submit' class='admin-button'>";
+                            echo "<i class='fas fa-boxes'></i> Gestione prodotti";
+                            echo "</button>";
+                            echo "</form>";
+                        }
+
+                        echo "<form action='cerca_prodotti.php' method='get' class='button-form'>";
+                        echo "<button type='submit' class='admin-button'>";
+                        echo "<i class='fas fa-boxes'></i> Shop";
+                        echo "</button>";
+                        echo "</form>";
+                        
+                    } else {
+                        echo "<h2>ACCESSO NEGATO</h2>";
+                    }
+                    $result->free();
+                }
+            } while ($conn->next_result());
+        } else {
+            echo '<div class="result-icon error"><i class="fas fa-exclamation-triangle"></i></div>';
+            echo '<div class="result-message">Errore nella query: ' . $conn->error . '</div>';
+        }
+        ?>
+        
     </div>
+
+
 </body>
 </html>
 <?php
