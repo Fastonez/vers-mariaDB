@@ -10,6 +10,7 @@ if (!isset($_SESSION['loggato'])) {
     exit();
 }
 
+
 $mysqli = new mysqli($host, $user, $pass, $db);
 
 // Gestione delle azioni
