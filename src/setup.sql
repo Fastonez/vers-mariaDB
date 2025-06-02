@@ -18,14 +18,53 @@ CREATE TABLE prodotti (
     quantita INT DEFAULT 1
 );
 
+DROP TABLE IF EXISTS Magazzino;
+CREATE TABLE Magazzino (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    posizione VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS MagazzinoProdotti;
+CREATE TABLE MagazzinoProdotti (
+    magazzinoId INT,
+    prodottoId INT,
+    quantita INT NOT NULL DEFAULT 0,
+    PRIMARY KEY (magazzinoId, prodottoId),
+    FOREIGN KEY (magazzinoId) REFERENCES Magazzino(id) ON DELETE CASCADE,
+    FOREIGN KEY (prodottoId) REFERENCES prodotti(id) ON DELETE CASCADE
+);
+
 INSERT INTO utenti (username, password, ruolo) VALUES
 ('admin', 'admin123', 'amministratore'),
 ('user1', 'pass1', 'utente'),
 ('user2', 'pass2', 'utente');
 
-INSERT INTO prodotti (nome, prezzo) VALUES
-('iphone', 1000.00),
-('macbook', 2000.00),
-('ipad', 800.00),
-('apple watch', 400.00),
-('airpods', 200.00);
+-- Inserimento di magazzini
+INSERT INTO Magazzino (posizione) VALUES
+('Roma'),
+('Milano'),
+('Napoli'),
+('Torino'),
+('Firenze');
+
+-- Inserimento di prodotti (con nome, prezzo, quantità totale disponibile)
+INSERT INTO prodotti (nome, prezzo, quantita) VALUES
+('Laptop', 799.99, 50),
+('Smartphone', 499.50, 80),
+('Stampante', 159.90, 30),
+('Monitor', 219.99, 40),
+('Tastiera', 89.00, 60);
+
+-- Inserimento di disponibilità dei prodotti nei magazzini
+-- Tabella: disponibilita(magazzinoID, prodottoID, quantita)
+INSERT INTO MagazzinoProdotti(magazzinoId, prodottoId, quantita) VALUES
+(1, 1, 10), -- Roma - Laptop
+(1, 2, 15), -- Roma - Smartphone
+(2, 1, 5),  -- Milano - Laptop
+(2, 3, 7),  -- Milano - Stampante
+(3, 4, 12), -- Napoli - Monitor
+(3, 5, 20), -- Napoli - Tastiera
+(4, 2, 8),  -- Torino - Smartphone
+(4, 3, 6),  -- Torino - Stampante
+(5, 1, 4),  -- Firenze - Laptop
+(5, 5, 10); -- Firenze - Tastiera

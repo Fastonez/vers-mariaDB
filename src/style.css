@@ -355,7 +355,9 @@ body {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid #eee;
+
 }
+
 
 .admin-header h2 {
     color: var(--primary);
@@ -381,6 +383,7 @@ body {
     background-color: #e01a6a;
     transform: translateY(-2px);
 }
+
 
 /* Add Product Form */
 .add-product-form {

@@ -46,6 +46,12 @@ $sql = "SELECT * FROM utenti WHERE username='$username' AND password='$password'
                             echo "<i class='fas fa-boxes'></i> Gestione prodotti";
                             echo "</button>";
                             echo "</form>";
+
+                            echo "<form action='gestione_magazzini.php' method='get' class='button-form'>";
+                            echo "<button type='submit' class='admin-button'>";
+                            echo "<i class='fas fa-boxes'></i> Gestione magazzini";
+                            echo "</button>";
+                            echo "</form>";
                         }
 
                         echo "<form action='cerca_prodotti.php' method='get' class='button-form'>";

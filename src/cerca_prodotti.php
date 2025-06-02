@@ -37,28 +37,38 @@ session_start();
         <div class="result-container">
             <?php
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["prodotto"])) {
-                $prodotto = $_POST["prodotto"]; // Intenzionalmente vulnerabile
-                $sql_prod = "SELECT nome, quantita FROM prodotti WHERE nome LIKE '$prodotto';";
+                $prodotto = $_POST["prodotto"]; // Input non sanificato - VULNERABILE
+                
+                // Query vulnerabile a SQL injection
+                $sql = "SELECT p.nome AS prodotto, m.posizione AS magazzino, mp.quantita 
+                        FROM prodotti p
+                        JOIN MagazzinoProdotti mp ON p.id = mp.prodottoId
+                        JOIN Magazzino m ON mp.magazzinoId = m.id
+                        WHERE p.nome LIKE '%$prodotto%'";
+                
 
-                if ($conn->multi_query($sql_prod)) {
-                    do {
-                        if ($result = $conn->store_result()) {
-                            if ($result->num_rows > 0) {
-                                $row = $result->fetch_assoc();
-                                $_SESSION['loggato'] = true;
-
-                                echo "<div class='success-message'>";
-                                echo "<strong>Prodotto:</strong> " . $row['nome'] . "<br>";
-                                echo "<strong>Disponibili:</strong> " . $row['quantita'];
-                                echo "</div>";
-                            } else {
-                                echo "<div class='error-message'>Prodotto non trovato o esaurito.</div>";
-                            }
-                            $result->free();
-                        }
-                    } while ($conn->next_result());
+                $result = $conn->query($sql);
+                
+                if ($result && $result->num_rows > 0) {
+                    echo "<h3>Disponibilità del prodotto</h3>";
+                    echo "<table class='result-table'>";
+                    echo "<tr><th>Prodotto</th><th>Magazzino</th><th>Quantità</th></tr>";
+                    
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['prodotto']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['magazzino']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['quantita']) . "</td>";
+                        echo "</tr>";
+                    }
+                    
+                    echo "</table>";
                 } else {
-                    echo "<div class='error-message'><i class='fas fa-exclamation-circle'></i> Errore: " . $conn->error . "</div>";
+                    echo "<div class='error-message'>Nessun risultato trovato per: " . htmlspecialchars($prodotto) . "</div>";
+                }
+                
+                if ($result) {
+                    $result->free();
                 }
             }
             ?>
