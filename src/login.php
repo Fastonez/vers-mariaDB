@@ -41,7 +41,7 @@ $sql = "SELECT * FROM utenti WHERE username='$username' AND password='$password'
                         echo "<p>Ruolo: " . htmlspecialchars($row['ruolo']) . "</p>";
 
                         if ($row['ruolo'] == 'amministratore') {
-                            echo "<form action='prodotti.php' method='get' class='button-form'>";
+                            echo "<form action='gestione_prodotti.php' method='get' class='button-form'>";
                             echo "<button type='submit' class='admin-button'>";
                             echo "<i class='fas fa-boxes'></i> Gestione prodotti";
                             echo "</button>";
@@ -54,7 +54,7 @@ $sql = "SELECT * FROM utenti WHERE username='$username' AND password='$password'
                             echo "</form>";
                         }
 
-                        echo "<form action='cerca_prodotti.php' method='get' class='button-form'>";
+                        echo "<form action='shop.php' method='get' class='button-form'>";
                         echo "<button type='submit' class='admin-button'>";
                         echo "<i class='fas fa-boxes'></i> Shop";
                         echo "</button>";

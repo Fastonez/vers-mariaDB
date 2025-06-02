@@ -70,6 +70,8 @@ session_start();
                 if ($result) {
                     $result->free();
                 }
+
+                
             }
             ?>
         </div>
