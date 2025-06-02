@@ -105,12 +105,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h2><i class="fas fa-boxes"></i> Gestione Prodotti</h2>
-            <a href="index.php" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
+            <a href="home.php" class="admin-button">
+            <i class="fas fa-arrow-left"></i>Indietro
             </a>
-        </div>
-
+        <h2><i class="fas fa-boxes"></i> Gestione Prodotti</h2>
+            <a href="index.php" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
         <div class="admin-content">
             <div class="add-product-form">
                 <h3><i class="fas fa-plus-circle"></i> Aggiungi Nuovo Prodotto</h3>

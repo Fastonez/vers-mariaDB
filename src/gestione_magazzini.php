@@ -65,9 +65,17 @@ $conn->close();
 <body>
 <div class="admin-container">
     <div class="admin-header">
-        <h2>Gestione Magazzini</h2>
-        <a class="logout-btn" href="index.php">Logout</a>
+        <div class="header-left">
+            <a href="home.php" class="admin-button">
+                <i class="fas fa-arrow-left"></i> Indietro
+            </a>
+        </div>
+        <h2><i class="fas fa-boxes"></i> Gestione Magazzini</h2>
+        <a href="index.php" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
     </div>
+
 
     <?php if ($success): ?>
         <div class="success-message"><?= htmlspecialchars($success) ?></div>

@@ -533,3 +533,44 @@ tr:hover {
         padding: 0.5rem;
     }
 }
+
+.back-btn {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.back-btn i {
+    margin-right: 6px;
+}
+
+.back-btn:hover {
+    background-color: #c0392b;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.admin-header .header-left {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.admin-header h2 {
+    margin: 0 20px; /* Aggiunge spazio orizzontale */
+    color: #2d57f5;
+    font-weight: 800;
+}
+
+

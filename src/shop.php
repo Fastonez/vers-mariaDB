@@ -24,7 +24,9 @@ session_start();
 
 <div class="main-content">
     <div class="form-container">
-        <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i>Torna al Login</a>
+        <a href="index.php" class="admin-button"><i class="fas fa-arrow-left"></i>Torna al Login</a>
+        <a href="home.php" class="admin-button"><i class="fas fa-arrow-left"></i>Indietro</a>
+
 
         <form method="POST" class="login-form">
             <div class="form-group">
