@@ -31,7 +31,6 @@ session_start();
     </div>
 </head>
 <body>
-
 <div class="main-content">
     <div class="form-container">
         <div class="admin-header">
@@ -64,50 +63,49 @@ session_start();
             }
             ?>
         </ul>
+    </div>
 
-        <div class="result-container">
-            <?php
-            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["prodotto"])) {
-                $prodotto = $_POST["prodotto"]; // Input non sanificato - VULNERABILE
-                
-                // Query vulnerabile a SQL injection
-                $sql = "SELECT p.nome AS prodotto, m.posizione AS magazzino, mp.quantita 
-                        FROM prodotti p
-                        JOIN MagazzinoProdotti mp ON p.id = mp.prodottoId
-                        JOIN Magazzino m ON mp.magazzinoId = m.id
-                        WHERE p.nome LIKE '%$prodotto%'";
-                
+    <!-- RISULTATI FUORI DALLA FORM-CONTAINER -->
+    <div class="result-container">
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["prodotto"])) {
+            $prodotto = $_POST["prodotto"]; // Input non sanificato - VULNERABILE
 
-                $result = $conn->query($sql);
-                
-                if ($result && $result->num_rows > 0) {
-                    echo "<h3>Disponibilità del prodotto</h3>";
-                    echo "<table class='result-table'>";
-                    echo "<tr><th>Prodotto</th><th>Magazzino</th><th>Quantità</th></tr>";
-                    
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['prodotto']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['magazzino']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['quantita']) . "</td>";
-                        echo "</tr>";
-                    }
-                    
-                    echo "</table>";
-                } else {
-                    echo "<div class='error-message'>Nessun risultato trovato per: " . htmlspecialchars($prodotto) . "</div>";
-                }
-                
-                if ($result) {
-                    $result->free();
+            $sql = "SELECT p.nome AS prodotto, m.posizione AS magazzino, mp.quantita, p.prezzo as prezzo
+                    FROM prodotti p
+                    JOIN MagazzinoProdotti mp ON p.id = mp.prodottoId
+                    JOIN Magazzino m ON mp.magazzinoId = m.id
+                    WHERE p.nome LIKE '%$prodotto%'";
+
+            $result = $conn->query($sql);
+
+            if ($result && $result->num_rows > 0) {
+                echo "<h3>Disponibilità del prodotto</h3>";
+                echo "<table class='result-table'>";
+                echo "<tr><th>Prodotto</th><th>Magazzino</th><th>Quantità</th><th>Prezzo</th></tr>";
+
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row['prodotto']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['magazzino']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['quantita']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['prezzo']) . " €</td>";
+                    echo "</tr>";
                 }
 
-                
+                echo "</table>";
+            } else {
+                echo "<div class='error-message'>Nessun risultato trovato per: " . htmlspecialchars($prodotto) . "</div>";
             }
-            ?>
-        </div>
+
+            if ($result) {
+                $result->free();
+            }
+        }
+        ?>
     </div>
 </div>
+
 
 <?php $conn->close(); ?>
 </body>

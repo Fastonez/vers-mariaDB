@@ -49,11 +49,11 @@ INSERT INTO Magazzino (posizione) VALUES
 
 -- Inserimento di prodotti (con nome, prezzo, quantità totale disponibile)
 INSERT INTO prodotti (nome, prezzo, quantita) VALUES
-('Laptop', 799.99, 50),
-('Smartphone', 499.50, 80),
-('Stampante', 159.90, 30),
-('Monitor', 219.99, 40),
-('Tastiera', 89.00, 60);
+('Laptop', 799.99, 19),
+('Smartphone', 499.50, 23),
+('Stampante', 159.90, 13),
+('Monitor', 219.99, 12),
+('Tastiera', 89.00, 30);
 
 -- Inserimento di disponibilità dei prodotti nei magazzini
 -- Tabella: disponibilita(magazzinoID, prodottoID, quantita)

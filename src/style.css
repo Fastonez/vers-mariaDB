@@ -42,10 +42,13 @@ body {
 .main-content {
     flex: 1;
     display: flex;
+    flex-direction: column; /* <- QUESTA È LA CHIAVE */
     justify-content: center;
     align-items: center;
     padding: 2rem;
+    gap: 2rem; /* opzionale, aggiunge spazio tra form e risultati */
 }
+
 
 /* Componenti form */
 .form-container {
@@ -150,7 +153,10 @@ body {
     padding: 2rem;
     text-align: center;
     width: 100%;
+    max-width: 800px;
+    margin: 2rem auto;
 }
+
 
 .result-icon {
     font-size: 4rem;
@@ -581,3 +587,13 @@ tr:hover {
 .product-list2 li {
     margin-bottom: 5px;
 }
+
+.result-table {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+
