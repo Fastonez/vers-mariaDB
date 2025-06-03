@@ -58,24 +58,23 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Gestione Magazzini</title>
-    <link rel="stylesheet" href="style.css">
+    <div class="admin-header">
+        <div class="header-left">
+            <a href="home.php" class="logout-btn"><i class="fas fa-arrow-left"></i>Indietro</a>
+        </div>
+        <meta charset="UTF-8">
+        <title>Gestione Magazzini</title>
+        <link rel="stylesheet" href="style.css">
+        <div>
+            <a href="index.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+    </div>
 </head>
 <body>
 <div class="admin-container">
     <div class="admin-header">
-        <div class="header-left">
-            <a href="home.php" class="admin-button">
-                <i class="fas fa-arrow-left"></i> Indietro
-            </a>
-        </div>
-        <h2><i class="fas fa-boxes"></i> Gestione Magazzini</h2>
-        <a href="index.php" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
+        <h2><i class="fas fa-boxes"></i>Gestione Magazzini</h2>
     </div>
-
 
     <?php if ($success): ?>
         <div class="success-message"><?= htmlspecialchars($success) ?></div>

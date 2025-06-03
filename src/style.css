@@ -573,4 +573,11 @@ tr:hover {
     font-weight: 800;
 }
 
-
+.product-list2 {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+.product-list2 li {
+    margin-bottom: 5px;
+}

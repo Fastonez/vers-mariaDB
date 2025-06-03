@@ -15,19 +15,28 @@ session_start();
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Ricerca Prodotti</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <div class="admin-header">
+        <div class="header-left">
+            <a href="home.php" class="logout-btn"><i class="fas fa-arrow-left"></i>Indietro</a>
+        </div>
+
+        <meta charset="UTF-8">
+        <title>Ricerca Prodotti</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+        
+        <div>
+            <a href="index.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+    </div>
 </head>
 <body>
 
 <div class="main-content">
     <div class="form-container">
-        <a href="index.php" class="admin-button"><i class="fas fa-arrow-left"></i>Torna al Login</a>
-        <a href="home.php" class="admin-button"><i class="fas fa-arrow-left"></i>Indietro</a>
-
-
+        <div class="admin-header">
+            <h2><i class="fas fa-boxes"></i>Shop</h2>
+        </div>
         <form method="POST" class="login-form">
             <div class="form-group">
                 <label for="prodotto">Cerca prodotto:</label>
@@ -35,6 +44,26 @@ session_start();
             </div>
             <button type="submit" class="login-btn">Cerca</button>
         </form>
+
+        <h3>Prodotti disponibili</h3>
+        <ul class="product-list2">
+            <?php
+            $sql_all = "SELECT DISTINCT nome FROM prodotti ORDER BY nome ASC";
+            $result_all = $conn->query($sql_all);
+
+            if ($result_all && $result_all->num_rows > 0) {
+                while ($row = $result_all->fetch_assoc()) {
+                    echo "<li>" . htmlspecialchars($row['nome']) . "</li>";
+                }
+            } else {
+                echo "<li>Nessun prodotto disponibile</li>";
+            }
+
+            if ($result_all) {
+                $result_all->free();
+            }
+            ?>
+        </ul>
 
         <div class="result-container">
             <?php
